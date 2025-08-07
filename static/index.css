@@ -1,0 +1,74 @@
+/* Основные стили */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  display: flex;
+  height: 100vh;
+}
+
+/* Контейнер страницы */
+#todays-workout {
+  width: 50%;
+  height: 100%;
+  background: white;
+  padding: 25px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/* Заголовок */
+#todays-workout-header {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 25px;
+  font-weight: 600;
+}
+
+/* Таблица */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 25px;
+}
+
+th {
+  background-color: #3498db;
+  color: white;
+  padding: 12px;
+  text-align: left;
+}
+
+td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+}
+
+/* Кнопка */
+button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  display: block;
+  margin: 0 auto;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+a {
+  text-decoration: none;
+}

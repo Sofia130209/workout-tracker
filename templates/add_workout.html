@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='add_workout.css') }}" />
+    <title>Add exercise</title>
+  </head>
+  <body>
+    <div id="add-workout-page">
+      <h1 id="add-workout-header">Добавить упражнение</h1>
+      <form action="/add-workout" method="post">
+        <label>Упражнение:</label>
+        <br />
+        <input type="text" id="exercise" name="exercise" required />
+        <br />
+        <br />
+        <label>Количество повторений:</label>
+        <br />
+        <input type="number" id="amount" name="amount" required />
+        <br />
+        {% if error %}
+        <p style="color: red">{{ error | e }}</p>
+        {% endif %}
+        <br />
+        <input type="submit" value="Добавить упражнение" />
+      </form>
+    </div>
+  </body>
+</html>

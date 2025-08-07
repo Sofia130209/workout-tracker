@@ -1,0 +1,125 @@
+/* Основные стили */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Контейнер формы */
+#login {
+  width: 100%;
+  max-width: 450px;
+  background: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Заголовок */
+#header {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: 600;
+  font-size: 28px;
+}
+
+/* Форма */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+label {
+  font-weight: 500;
+  color: #555;
+  font-size: 15px;
+}
+
+input[type='text'],
+input[type='password'] {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+input[type='text']:focus,
+input[type='password']:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+  outline: none;
+}
+
+/* Сообщение об ошибке */
+p {
+  color: #e74c3c;
+  background-color: #ffeeee;
+  padding: 12px;
+  border-radius: 6px;
+  text-align: center;
+  margin: 10px 0 5px;
+  font-size: 14px;
+}
+
+/* Основная кнопка */
+input[type='submit'] {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+input[type='submit']:hover {
+  background-color: #2980b9;
+}
+
+/* Вторичная кнопка */
+button {
+  background-color: #f8f9fa;
+  color: #3498db;
+  border: 1px solid #3498db;
+  padding: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s;
+  width: 100%;
+  margin-top: 5px;
+}
+
+button:hover {
+  background-color: #eaf4fd;
+}
+
+/* Ссылка */
+a {
+  text-decoration: none;
+  display: block;
+}
+
+/* Адаптивность */
+@media (max-width: 500px) {
+  #login {
+    padding: 30px 20px;
+    margin: 20px;
+    width: auto;
+  }
+}

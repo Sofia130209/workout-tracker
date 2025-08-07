@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}" />
+    <title>Login</title>
+  </head>
+  <body>
+    <div id="login">
+      <h1 id="header">Вход</h1>
+      <form action="/login" method="post">
+        <label>Имя пользователя:</label>
+        <br />
+        <input type="text" id="username" name="username" required />
+        <br />
+        <label>Пароль:</label>
+        <br />
+        <input type="password" id="password" name="password" required />
+        <br />
+        {% if error %}
+        <p style="color: red">{{ error | e }}</p>
+        {% endif %}
+        <br />
+        <input type="submit" value="Войти" />
+        <br />
+      </form>
+      <a href="{{ url_for('register') }}"><button>Зарегистрироваться</button></a>
+    </div>
+  </body>
+</html>
