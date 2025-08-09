@@ -33,6 +33,7 @@ def login():
         user = Users.query.filter_by(username=username).first()
         if user and user.check_password(password):
             session["username"] = username
+            session["user_id"] = user.id
             session["logged_in"] = True
 
             return redirect(url_for("index"))
@@ -78,11 +79,13 @@ def register():
         user = Users(username=username)
         user.set_password(password=password)
 
+        session["user_id"] = user.id
+
         # * записываем в бд
         db.session.add(user)
         db.session.commit()
 
-        return redirect(url_for("index"))
+        return redirect(url_for("login"))
 
     return render_template("register.html")
 
