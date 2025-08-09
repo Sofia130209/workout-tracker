@@ -1,34 +1,21 @@
 from flask_sqlalchemy import SQLAlchemy
+
 from sqlalchemy.orm import validates
+from sqlalchemy import ForeignKey
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
 
 
-class Exercises(db.Model):
-    __tablename__ = "Exercises"
-
-    id = db.Column(db.Integer, primary_key=True)
-    exercise = db.Column(db.String(50), unique=False, nullable=False)
-    amount = db.Column(db.Integer, unique=False, nullable=False)
-
-    @validates("amount")
-    def validate_value(self, key, value):
-        if value < 0:
-            raise ValueError("Значение не может быть отрицательным")
-        return value
-
-    def __repr__(self):
-        return f"<Exercise {self.exercise}, amount {self.amount}>"
-
-
 class Users(db.Model):
-    __tablename__ = "Users"
+    __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(30), unique=True, nullable=False)
     password = db.Column(db.String(128), nullable=False)
+
+    exercises = db.relationship("Exercises", backref="user", lazy=True)
 
     def set_password(self, password):
         self.password = generate_password_hash(
@@ -40,3 +27,22 @@ class Users(db.Model):
 
     def __repr__(self):
         return f"<User {self.username}>"
+
+
+class Exercises(db.Model):
+    __tablename__ = "exercises"
+
+    id = db.Column(db.Integer, primary_key=True)
+    exercise = db.Column(db.String(50), unique=False, nullable=False)
+    amount = db.Column(db.Integer, unique=False, nullable=False)
+
+    user_id = db.Column(db.Integer, ForeignKey("users.id"), nullable=False)
+
+    @validates("amount")
+    def validate_value(self, key, value):
+        if value < 0:
+            raise ValueError("Значение не может быть отрицательным")
+        return value
+
+    def __repr__(self):
+        return f"<Exercise {self.exercise}, amount {self.amount}>"

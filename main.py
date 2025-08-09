@@ -14,7 +14,7 @@ app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 
-db.init_app(app)
+db.init_app(app)  # * инициализация бд
 
 
 # TODO : руты сайта
@@ -89,16 +89,17 @@ def register():
 
 @app.route("/", methods=["GET"])
 def index():
-    if session.get("logged_in") != True:
+    if not session.get("logged_in"):
         return redirect(url_for("login"))
 
-    all_data = Exercises.query.all()
-    # TODO : all_data = Exercises.query.filter_by(username=session.get("username"))
+    all_data = (
+        db.session.query(Exercises)
+        .join(Users, Exercises.user_id == Users.id)
+        .filter(Users.username == session.get("username"))
+        .all()
+    )
 
-    data = []
-
-    for i in all_data:
-        data.append({"Exercises": i.Exercises, "amount": i.amount})
+    data = [{"exercise": i.exercise, "amount": i.amount} for i in all_data]
 
     return (
         render_template("index.html", data=data, username=session.get("username")),
@@ -108,12 +109,15 @@ def index():
 
 @app.route("/add-workout", methods=["GET", "POST"])
 def add_workout():
+    if not session.get("logged_in"):
+        return redirect(url_for("login"))
+
     if request.method == "POST":
         amount = request.form.get(
             "amount"
         )  # * получение значения из html-формы по аттрибуту name
-        Exercises = request.form.get(
-            "Exercises"
+        exercise = request.form.get(
+            "exercise"
         )  # * получение значения из html-формы по аттрибуту name
 
         # * проверка корректности amount
@@ -139,15 +143,15 @@ def add_workout():
                 400,
             )
 
-        # * проверка корректности Exercises
-        if not Exercises:
+        # * проверка корректности exercise
+        if not exercise:
             return (
                 render_template("add_workout.html", error="Название не указано!"),
                 400,
             )
 
         try:
-            Exercises = str(Exercises)
+            exercise = str(exercise)
         except ValueError:
             return (
                 render_template(
@@ -156,9 +160,13 @@ def add_workout():
                 400,
             )
 
+        user = Users.query.filter_by(username=session.get("username")).first()
+        if not user:
+            return redirect(url_for("login"))
+
         # * записываем в бд
-        Exercises = Exercises(Exercises=Exercises, amount=amount)
-        db.session.add(Exercises)
+        new_exercise = Exercises(exercise=exercise, amount=amount, user_id=user.id)
+        db.session.add(new_exercise)
         db.session.commit()
 
         return redirect(url_for("index"))
@@ -170,6 +178,7 @@ def add_workout():
 if __name__ == "__main__":
     # * создание таблиц базы данных
     with app.app_context():
+        # db.drop_all()  # ! удаляет все таблицы
         db.create_all()
 
     # * запуск приложения
