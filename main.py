@@ -1,4 +1,5 @@
 import os
+import csv
 
 from flask import Flask, render_template, request, redirect, url_for, session
 
@@ -169,8 +170,29 @@ def add_workout():
 
         # * записываем в бд
         new_exercise = Exercises(exercise=exercise, amount=amount, user_id=user.id)
+
         db.session.add(new_exercise)
         db.session.commit()
+
+        # * работа с csv
+        exercises = {
+            "user_id": user.id,
+            "exercise": f"{exercise}",
+            "amount": amount,
+        }  # * словарь для записи упражнений для дальнейшего переноса в csv файл
+
+        filename = "D:/PythonProjects/workouts_site/data/data.csv"
+
+        # * проверяем, нужно ли писать заголовки (если файл пустой/не существует)
+        write_header = not os.path.exists(filename) or os.stat(filename).st_size == 0
+
+        with open(filename, "a", newline="") as csvfile:
+            fieldnames = exercises.keys()
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+            if write_header:
+                writer.writeheader()  # * записываем загловки только если файл пустой
+            writer.writerow(exercises)  # * записываем одну строку данных
 
         return redirect(url_for("index"))
 
@@ -181,8 +203,8 @@ def add_workout():
 if __name__ == "__main__":
     # * создание таблиц базы данных
     with app.app_context():
-        # db.drop_all()  # ! удаляет все таблицы
-        db.create_all()
+        # db.drop_all()  # * удаляет все таблицы
+        db.create_all()  # * создаёт все таблицы
 
     # * запуск приложения
     app.run(debug=True)
