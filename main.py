@@ -96,14 +96,14 @@ def index():
     if not session.get("logged_in"):
         return redirect(url_for("login"))
 
-    all_data = (
+    user_exercises = (
         db.session.query(Exercises)
         .join(Users, Exercises.user_id == Users.id)
         .filter(Users.username == session.get("username"))
         .all()
     )
 
-    data = [{"exercise": i.exercise, "amount": i.amount} for i in all_data]
+    data = [{"exercise": i.exercise, "amount": i.amount} for i in user_exercises]
 
     return (
         render_template("index.html", data=data, username=session.get("username")),
