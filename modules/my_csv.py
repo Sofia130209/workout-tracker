@@ -59,9 +59,13 @@ def plot_exercises(
 
         subset = subset.sort_index()
 
+        # * добавляем начальную точку (1;0)
+        x_values = [1] + subset.index.tolist()
+        y_values = [0] + subset["amount"].tolist()
+
         plt.plot(
-            subset.index,
-            subset["amount"],
+            x_values,
+            y_values,
             marker="o",
             linestyle="-",
             linewidth=2,
