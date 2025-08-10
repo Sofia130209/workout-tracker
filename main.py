@@ -5,7 +5,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from dotenv import load_dotenv
 
 from modules.models import db, Exercises, Users
-from modules.my_csv import to_csv
+from modules.my_csv import to_csv, plot_exercises
 
 load_dotenv()
 
@@ -175,6 +175,12 @@ def add_workout():
 
         # * запись в csv
         to_csv(user_id=user.id, exercise=exercise, amount=amount)
+        # * построение графика
+        plot_exercises(
+            csv_path=os.getenv("CSV_URL"),
+            save_path=os.getenv("GRAPHICS_IMAGE_URL"),
+            y_step=5,
+        )
 
         return redirect(url_for("index"))
 

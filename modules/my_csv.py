@@ -4,7 +4,12 @@ import csv
 from dotenv import load_dotenv
 
 import pandas as pd
+
+import matplotlib
+
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+
 import numpy as np
 
 load_dotenv()
