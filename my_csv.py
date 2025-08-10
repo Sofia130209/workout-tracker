@@ -10,7 +10,7 @@ def to_csv(user_id, exercise, amount):
     # * работа с csv
     exercises = {
         "user_id": user_id,
-        "exercise": f"{exercise}",
+        "exercise": exercise,
         "amount": amount,
     }  # * словарь для записи упражнений для дальнейшего переноса в csv файл
 
