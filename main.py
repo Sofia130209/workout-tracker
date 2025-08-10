@@ -1,5 +1,4 @@
-import os
-import csv
+import os, csv
 
 from flask import Flask, render_template, request, redirect, url_for, session
 
