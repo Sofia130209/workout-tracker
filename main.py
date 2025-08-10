@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 from models import db, Exercises, Users
 
-from _csv import to_csv
+from my_csv import to_csv
 
 load_dotenv()
 
