@@ -180,6 +180,7 @@ def add_workout():
             csv_path=os.getenv("CSV_URL"),
             save_path=os.getenv("GRAPHICS_IMAGE_URL"),
             y_step=5,
+            x_step=1,
         )
 
         return redirect(url_for("index"))

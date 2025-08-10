@@ -38,7 +38,10 @@ def to_csv(user_id, exercise, amount):
 
 
 def plot_exercises(
-    csv_path=os.getenv("CSV_URL"), save_path=os.getenv("GRAPHICS_IMAGE_URL"), y_step=5
+    csv_path=os.getenv("CSV_URL"),
+    save_path=os.getenv("GRAPHICS_IMAGE_URL"),
+    y_step=5,
+    x_step=1,
 ):
     try:
         df = pd.read_csv(csv_path)
@@ -74,6 +77,7 @@ def plot_exercises(
     max_amount = df["amount"].max()
     y_max = ((max_amount // y_step) + 1) * y_step
     plt.yticks(np.arange(0, y_max + 1, y_step))
+    plt.xticks(np.arange(0, len(df) + 1, x_step))
     plt.grid(True, linestyle="--", alpha=0.7)
 
     plt.legend(
