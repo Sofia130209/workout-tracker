@@ -3,6 +3,10 @@ import csv
 
 from dotenv import load_dotenv
 
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
 load_dotenv()
 
 
@@ -26,3 +30,61 @@ def to_csv(user_id, exercise, amount):
         if write_header:
             writer.writeheader()  # * записываем загловки только если файл пустой
         writer.writerow(exercises)  # * записываем одну строку данных
+
+
+def plot_exercises(
+    csv_path=os.getenv("CSV_URL"), save_path=os.getenv("GRAPHICS_IMAGE_URL"), y_step=5
+):
+    try:
+        df = pd.read_csv(csv_path)
+    except FileNotFoundError:
+        print(f"Ошибка: файл {csv_path} не найден")
+        return
+
+    # * создаем график
+    plt.figure(figsize=(12, 6))
+
+    # * для каждого уникального упражнения
+    for exercise in df["exercise"].unique():
+        # * фильтруем данные по упражнению
+        subset = df[df["exercise"] == exercise]
+
+        subset = subset.sort_index()
+
+        plt.plot(
+            subset.index,
+            subset["amount"],
+            marker="o",
+            linestyle="-",
+            linewidth=2,
+            markersize=8,
+            label=exercise,
+        )
+
+    # * настройки графика
+    plt.title("Динамика выполнения упражнений", fontsize=14, pad=20)
+    plt.xlabel("Номер тренировки", fontsize=12)
+    plt.ylabel("Количество повторений", fontsize=12)
+
+    max_amount = df["amount"].max()
+    y_max = ((max_amount // y_step) + 1) * y_step
+    plt.yticks(np.arange(0, y_max + 1, y_step))
+    plt.grid(True, linestyle="--", alpha=0.7)
+
+    plt.legend(
+        title="Упражнения",
+        bbox_to_anchor=(1.05, 1),
+        loc="upper left",
+        borderaxespad=0.0,
+        fontsize=10,
+    )
+
+    plt.tight_layout()
+
+    if save_path:
+        plt.savefig(save_path, dpi=300, bbox_inches="tight")
+        print(f"График сохранен в {save_path}")
+    else:
+        plt.show()
+
+    plt.close()
