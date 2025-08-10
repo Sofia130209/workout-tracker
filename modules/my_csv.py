@@ -83,7 +83,6 @@ def plot_exercises(
 
     if save_path:
         plt.savefig(save_path, dpi=300, bbox_inches="tight")
-        print(f"График сохранен в {save_path}")
     else:
         plt.show()
 
