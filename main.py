@@ -171,7 +171,6 @@ def add_workout():
 
         # * записываем в бд
         new_exercise = Exercises(exercise=exercise, amount=amount, user_id=user.id)
-
         db.session.add(new_exercise)
         db.session.commit()
 
