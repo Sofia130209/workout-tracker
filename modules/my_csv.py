@@ -19,7 +19,7 @@ def to_csv(user_id, exercise, amount):
     # * проверяем, нужно ли писать заголовки (если файл пустой/не существует)
     write_header = not os.path.exists(filename) or os.stat(filename).st_size == 0
 
-    with open(filename, "a", newline="") as csvfile:
+    with open(filename, "a", newline="", encoding="utf-8") as csvfile:
         fieldnames = exercises.keys()
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
