@@ -1,4 +1,9 @@
-import os, csv
+import os
+import csv
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 def to_csv(user_id, exercise, amount):
@@ -9,7 +14,7 @@ def to_csv(user_id, exercise, amount):
         "amount": amount,
     }  # * словарь для записи упражнений для дальнейшего переноса в csv файл
 
-    filename = "D:/PythonProjects/workouts_site/data/data.csv"
+    filename = os.getenv("CSV_URL")
 
     # * проверяем, нужно ли писать заголовки (если файл пустой/не существует)
     write_header = not os.path.exists(filename) or os.stat(filename).st_size == 0
